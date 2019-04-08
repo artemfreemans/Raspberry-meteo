@@ -5,9 +5,9 @@ import subprocess
 import bme280
 
 
-def cputemp(bot, update):
+def cputemp(bot, update): #тепература Цп
     subprocess.call('vcgencmd measure_temp>rasp_cp_temp', shell=True)
-    handle = open("rasp_cp_temp", "r")
+    handle = open("rasp_cp_temp", "r") #получаем температуру и записываем в файл
     data = handle.read()
     chat_id = update.message.chat_id
     bot.send_message(chat_id=chat_id, text=data)
@@ -19,7 +19,7 @@ def housetemp(bot, update):
     bot.send_message(chat_id=chat_id, text=temperature)
 
 
-def help(bot, update):
+def help(bot, update): #список команд бота
     chat_id = update.message.chat_id
     bot.send_message(chat_id=chat_id, text="/housetemp - температура воздуха")
     bot.send_message(chat_id=chat_id, text="/housevlag - влажность")
@@ -29,12 +29,12 @@ def help(bot, update):
 
     
     
-def housevlag(bot, update):
+def housevlag(bot, update): #влажность
     chat_id = update.message.chat_id
     temperature,pressure,humidity = bme280.readBME280All()
     bot.send_message(chat_id=chat_id, text=humidity)
     
-def housedavl(bot, update):
+def housedavl(bot, update): #давление
     chat_id = update.message.chat_id
     temperature,pressure,humidity = bme280.readBME280All()
     pressure=pressure/1.33
@@ -43,7 +43,7 @@ def housedavl(bot, update):
 
 
 def main():
-    updater = Updater('886657722:AAFckNuy6D-mTteCD2aVtH3SkKkpGvcYFxw')
+    updater = Updater('xxxxxxxxxxx') #токен
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('cputemp',cputemp))
     dp.add_handler(CommandHandler('housetemp',housetemp))
